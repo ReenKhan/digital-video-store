@@ -31,7 +31,6 @@ export default function MovieDetail({ children, id }) {
 
 
   useEffect(() => {
-    // fetch(`http://localhost:5000/movies/${id}`)
     fetch(`/movies/${id}`)
       .then((res) => {
         return res.json()

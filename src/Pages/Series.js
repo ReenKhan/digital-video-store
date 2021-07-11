@@ -6,7 +6,6 @@ const Series = () => {
   const [series, setSeries] = useState([]);
 
   useEffect(() => {
-    // fetch(" http://localhost:5000/series")
     fetch("/series")
       .then((res) => {
         return res.json()

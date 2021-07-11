@@ -32,7 +32,6 @@ export default function SeriesDetail({children,id}) {
 
 
   useEffect(()=>{
-    //  fetch(`http://localhost:5000/series/${id}`)
     fetch(`/series/${id}`)
      .then((res)=>{
        return res.json()
