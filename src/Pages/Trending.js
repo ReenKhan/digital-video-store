@@ -8,7 +8,7 @@ const Trending = () => {
   const [trendingSeries, setTrendingSeries] = useState([]);
 
   useEffect(() => {
-    fetch(" https://mighty-depths-20004.herokuapp.com/trendingMovie")
+    fetch(" http://localhost:5000/trendingMovie")
       .then((res) => {
         return res.json()
       })
@@ -21,7 +21,7 @@ const Trending = () => {
   }, [])
 
   useEffect(() => {
-    fetch(" https://mighty-depths-20004.herokuapp.com/trendingSeries")
+    fetch(" http://localhost:5000/trendingSeries")
       .then((res) => {
         return res.json()
       })
