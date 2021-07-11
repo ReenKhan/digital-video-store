@@ -8,7 +8,8 @@ const Trending = () => {
   const [trendingSeries, setTrendingSeries] = useState([]);
 
   useEffect(() => {
-    fetch(" http://localhost:5000/trendingMovie")
+    // fetch(" http://localhost:5000/trendingMovie")
+    fetch("/trendingMovie")
       .then((res) => {
         return res.json()
       })
@@ -21,7 +22,8 @@ const Trending = () => {
   }, [])
 
   useEffect(() => {
-    fetch(" http://localhost:5000/trendingSeries")
+    // fetch(" http://localhost:5000/trendingSeries")
+    fetch("/trendingSeries")
       .then((res) => {
         return res.json()
       })
