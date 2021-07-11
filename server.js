@@ -23,7 +23,7 @@ const importData=require("./db.json");
 
 const PORT =process.env.PORT || 3000;
 
-    app.get('/movies', (req,res)=>{
+    app.get('/', (req,res)=>{
         req.send(importData);
     });
 
