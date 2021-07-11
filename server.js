@@ -19,18 +19,16 @@
 
 const express=require('express');
 const app=express();
-const path=require('path');
+const importData=require("./db.json");
 
 const PORT =process.env.PORT || 3000;
 
-if(process.env.NODE_ENV==="production"){
-    app.use(express.static('build'));
-    app.get('*', (req,res)=>{
-        req.sendFile(path.resolve(__dirname,'build','index.html'));
-    })
-}
+    app.get('/movies', (req,res)=>{
+        req.send(importData);
+    });
+
 app.listen(PORT, ()=>{
-     console.log('JSON Server is running on', PORT)
+     console.log(`JSON Server is running on port http://localhost:${PORT}` )
 });
 
 
