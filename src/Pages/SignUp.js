@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { AlternateEmail } from '@material-ui/icons';
 
 
 
@@ -34,8 +35,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
+
+
 export default function SignUp() {
+
   const classes = useStyles();
+
+  const [users,setUsers]=useState({
+     firstName:"",
+     lastName:"",
+     email:"",
+     username:"",
+     password:""
+    
+  })
+
+  const submitForm = (e) => {
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(users)
+    }) 
+      .then(res=>res.json())
+      .then(data=>{
+        alert(`The user ${data.firstName} was added successfully`)
+      })
+      .catch(err => console.log(`Error : ${err}`))
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -47,14 +77,18 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          action="/"
+          method="POST"
+          onSubmit={submitForm}
+          className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-               style={{
-                backgroundColor:"whitesmoke",
-                borderRadius: "10px"
-            }}
+                style={{
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "10px"
+                }}
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -62,45 +96,88 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                value={users.firstName}
                 autoFocus
+                onChange={(event)=>{
+                   setUsers({
+                     ...users,
+                     firstName:event.target.value
+                   })
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-               style={{
-                backgroundColor:"whitesmoke",
-                borderRadius: "10px"
-            }}
+                style={{
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "10px"
+                }}
                 variant="outlined"
                 required
                 fullWidth
                 id="lastName"
                 label="Last Name"
                 name="lastName"
+                value={users.lastName}
                 autoComplete="lname"
+                onChange={(event)=>{
+                  setUsers({
+                    ...users,
+                    lastName:event.target.value
+                  })
+               }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                style={{
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "10px"
+                }}
+                variant="outlined"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="userName"
+                value={users.username}
+                autoComplete="uname"
+                onChange={(event)=>{
+                  setUsers({
+                    ...users,
+                    username:event.target.value
+                  })
+               }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-               style={{
-                backgroundColor:"whitesmoke",
-                borderRadius: "10px"
-            }}
+                style={{
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "10px"
+                }}
                 variant="outlined"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
+                value={users.email}
                 autoComplete="email"
+                onChange={(event)=>{
+                  setUsers({
+                    ...users,
+                    email:event.target.value
+                  })
+               }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-               style={{
-                backgroundColor:"whitesmoke",
-                borderRadius: "10px"
-            }}
+                style={{
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "10px"
+                }}
                 variant="outlined"
                 required
                 fullWidth
@@ -108,7 +185,14 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                value={users.password}
                 autoComplete="current-password"
+                onChange={(event)=>{
+                  setUsers({
+                    ...users,
+                    password:event.target.value
+                  })
+               }}
               />
             </Grid>
             <Grid item xs={12}>

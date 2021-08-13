@@ -6,12 +6,14 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch("/movies")
+    fetch("http://localhost:5000/movies")
       .then((res) => {
         return res.json()
       })
-      .then(json => {
-        setMovies(json);
+      .then(data => {
+
+         console.log("this is data"+ data.body);
+        setMovies(data.body);
       })
       .catch((err) => {
         console.log(`Error ${err} `);

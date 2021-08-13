@@ -2,7 +2,7 @@ import React from 'react'
 import "../css/movies.css";
 import MovieDetail from '../Pages/MovieDetail';
 
-const singleContent = ({ id, Title, Year, Poster,backdrop_path }) => {
+const singleContent = ({ id, Poster}) => {
     return (
         <MovieDetail id={id}>
         <div>

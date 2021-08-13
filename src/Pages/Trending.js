@@ -8,7 +8,7 @@ const Trending = () => {
   const [trendingSeries, setTrendingSeries] = useState([]);
 
   useEffect(() => {
-    fetch("/trendingMovie")
+    fetch("/trendingMovies")
       .then((res) => {
         return res.json()
       })
@@ -37,10 +37,10 @@ const Trending = () => {
     <div>
       <span className="pageTitle">Trending Today</span>
       <h1>Trending Movies</h1>
-
+ 
       <div className="trending">
         {
-
+         
           trendingMovie && trendingMovie.map((c) => (
             <SingleContent
               key={c.id}
@@ -52,7 +52,9 @@ const Trending = () => {
               release_date={c.release_date}
               backdrop_path={c.backdrop_path}
             />
+          
           ))}
+
       </div>
       <hr/>
       <div className="Banner">
