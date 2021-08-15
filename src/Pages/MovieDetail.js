@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { useState, useEffect } from 'react';
 import "../css/MovieDetail.css";
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -23,25 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MovieDetail({ children, id }) {
+export default function MovieDetail({ children, id ,poster,title,year,rent,buy,overview,backdrop_path}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
-  const [detail, setDetail] = useState();
-
-
-  useEffect(() => {
-    fetch(`/movies/${id}`)
-      .then((res) => {
-        return res.json()
-      })
-      .then(json => {
-        setDetail(json);
-      })
-      .catch((err) => {
-        console.log(`Error ${err} `);
-      })
-  })
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,7 +34,6 @@ export default function MovieDetail({ children, id }) {
 const handleClose = () => {
   setOpen(false);
 };
-
 
 
 return (
@@ -71,23 +54,23 @@ return (
         }}
       >
     <Fade in={open}>
-    {detail &&(
+    {(
           <div className={classes.paper}>
             <div className="MovieDetail" >              
-            <img src={`${detail.Poster}`} className="MovieDetail_portrait" alt="poster" />
-            <img src={`${detail.backdrop_path}`} className="MovieDetail_landscape"  alt="post"/>
+            <img src={`${poster}`} className="MovieDetail_portrait" alt="poster" />
+            <img src={`${backdrop_path}`} className="MovieDetail_landscape"  alt="poster"/>
             <div className="MovieDetail_about">
               <span className="MovieDetail_title">
-                {detail.Title} ({(detail.Year)})
+                {title} ({(year)})
               </span>
               <span className="glass">
               <ul>
-                <li>Rent: {detail.Rent}</li>
-                <li>Buy: {detail.Buy}</li>
+                <li>Rent: {rent}</li>
+                <li>Buy: {buy}</li>
                </ul>
               </span>
               <span className="MovieDetail_overview">
-              {(detail.overview)}
+              {(overview)}
               </span>
               
             </div>

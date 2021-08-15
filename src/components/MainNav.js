@@ -7,14 +7,15 @@ import MovieIcon from "@material-ui/icons/Movie";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import SearchIcon from '@material-ui/icons/Search';
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
     width: "100%",
     position: "fixed",
-    bottom: 0, 
-background: "linear-gradient(90deg, rgba(89,125,196,1) 10%, rgba(88,115,170,1) 35%, rgba(57,68,90,1) 91%)",
+    bottom: 0,
+    background: "linear-gradient(90deg, rgba(89,125,196,1) 10%, rgba(88,115,170,1) 35%, rgba(57,68,90,1) 91%)",
     zIndex: 100,
   },
 });
@@ -31,10 +32,13 @@ export default function SimpleBottomNavigation() {
       history.push("/movies");
     } else if (value === 2) {
       history.push("/series");
-    }else if (value === 3) {
-      history.push("/signUp");
+    } else if (value === 3) {
+      history.push("/search");
     }else if (value === 4) {
+      history.push("/signUp");
+    } else if (value === 5) {
       history.push("/login");
+
     }
   }, [value, history]);
 
@@ -64,6 +68,11 @@ export default function SimpleBottomNavigation() {
       />
       <BottomNavigationAction
         style={{ color: "white" }}
+        label="Search"
+        icon={<SearchIcon />}
+      />
+      <BottomNavigationAction
+        style={{ color: "white" }}
         label="Sign Up"
         icon={<PersonAddIcon />}
       />
@@ -71,8 +80,7 @@ export default function SimpleBottomNavigation() {
         style={{ color: "white" }}
         label="Login"
         icon={<LockOpenIcon />}
-      />
-
+      />      
     </BottomNavigation>
 
   );

@@ -11,6 +11,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import MovieContext from "../components/MovieContext";
+import { useContext } from 'react';
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: 'url(https://www.overtimeheroics.net/wp-content/uploads/2020/03/edndgame.jpg)',
     backgroundRepeat: 'no-repeat',
-   
+
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -29,16 +33,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#39445a'
-    
+
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%',
     marginTop: theme.spacing(1),
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -46,9 +50,85 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+
+function Login() {
+
+  const state = {
+    username: '',
+    password: '',
+    firstName:'',
+    lastName:''
+
+  }
 
   const classes = useStyles();
+
+  let history = useHistory();
+  const { userActive, setUser } = useContext(MovieContext);
+  
+  const handleEmailChange = (e) => {
+
+    state.username = e.target.value;
+    console.log(state.username);
+
+
+  }
+  const handlePasswordChange = (e) => {
+
+    state.password = e.target.value;
+    console.log(state.password);
+
+
+  }
+
+  const onSubmit = (e) => {
+    //console.log("onSubmit Call....");
+
+    fetch("http://localhost:5000/auth",
+      {
+
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+
+        },
+        body: JSON.stringify({
+          username: state.username,
+          password: state.password,
+          firstName: '',
+          lastName: ''
+        })
+
+      })
+      .then(res => res.json())
+      .then(data => {
+        
+        //console.log(state.username);
+        fetch("http://localhost:5000/users/username/" + state.username)
+          .then(res => res.json())
+          .then((data) => {
+            setUser(
+              {
+
+                userNow: "Auth",
+                username: data[0].username,
+                fname: data[0].firstName,
+                lname: data[0].lastName
+              }
+            )
+          
+
+            history.push('/');
+          })
+          .catch(err => console.log(`Error ${err}`));
+      })
+      .catch(err => console.log(`Error:  ${err}`))
+   
+alert(`Welcome ${state.firstName} to the website`);
+
+
+
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -63,16 +143,19 @@ export default function SignInSide() {
             Login
           </Typography>
           <form className={classes.form} noValidate>
+                  
+
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="Email Address"
-              name="email"
-              autoComplete="email"
+              name="username"
+              autoComplete="username"
               autoFocus
+              onChange={(event) => handleEmailChange(event)}
             />
             <TextField
               variant="outlined"
@@ -84,6 +167,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => handlePasswordChange(event)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -95,6 +179,8 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={(event) => onSubmit()}
+              
             >
               Login
             </Button>
@@ -106,5 +192,9 @@ export default function SignInSide() {
         </div>
       </Grid>
     </Grid>
+
+
   );
 }
+
+export default Login;

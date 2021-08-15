@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { AlternateEmail } from '@material-ui/icons';
+import { useState } from 'react';
 
 
 
@@ -46,13 +46,14 @@ export default function SignUp() {
   const [users,setUsers]=useState({
      firstName:"",
      lastName:"",
-     email:"",
      username:"",
      password:""
     
   })
 
   const submitForm = (e) => {
+
+    e.preventDefault();
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
@@ -62,7 +63,14 @@ export default function SignUp() {
     }) 
       .then(res=>res.json())
       .then(data=>{
-        alert(`The user ${data.firstName} was added successfully`)
+        alert(`The user ${users.firstName} was added successfully`);
+        setUsers({
+          firstName:"",
+          lastName:"",
+          username:"",
+          password:""
+         
+       })
       })
       .catch(err => console.log(`Error : ${err}`))
   }
@@ -128,7 +136,8 @@ export default function SignUp() {
                }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+           
+            <Grid item xs={12}>
               <TextField
                 style={{
                   backgroundColor: "whitesmoke",
@@ -146,28 +155,6 @@ export default function SignUp() {
                   setUsers({
                     ...users,
                     username:event.target.value
-                  })
-               }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                style={{
-                  backgroundColor: "whitesmoke",
-                  borderRadius: "10px"
-                }}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                value={users.email}
-                autoComplete="email"
-                onChange={(event)=>{
-                  setUsers({
-                    ...users,
-                    email:event.target.value
                   })
                }}
               />

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { useState,useEffect } from 'react';
 import "../css/SeriesDetail.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,25 +23,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SeriesDetail({children,id}) {
+export default function SeriesDetail({children,id, title, year,buy,overview, poster,backdrop_path }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const[detail, setDetail]=useState();
+  // const[detail, setDetail]=useState({});
 
 
-  useEffect(()=>{
-    fetch(`/series/${id}`)
-     .then((res)=>{
-       return res.json()
-    })
-    .then(json=>{
-      setDetail(json);
-    })
-     .catch((err)=>{
-       console.log(`Error ${err} `);
-     })
-  })
+  // useEffect(()=>{
+  //   fetch(`http://localhost:5000/series/${id}`)
+  //    .then((res)=>{
+  //      return res.json()
+  //   })
+  //   .then(data=>{
+  //     setDetail((previousState) => {
+
+  //       previousState = data;
+  //       return previousState
+        
+  //     });
+  //   })
+  //    .catch((err)=>{
+  //      console.log(`Error ${err} `);
+  //    })
+  // })
  
   const handleOpen = () => {
     setOpen(true);
@@ -51,9 +55,11 @@ export default function SeriesDetail({children,id}) {
   const handleClose = () => {
     setOpen(false);
   };
+  //console.log(detail);
 
 
   return (
+
     <div>
       <button  className="movieposter" onClick={handleOpen}>
         {children}
@@ -70,21 +76,22 @@ export default function SeriesDetail({children,id}) {
           timeout: 500,
         }}
       >
+     
         <Fade in={open}>
-          {detail &&(
+          {(
           <div className={classes.paper}>
             <div className="MovieDetail">
-            <img src={`${detail.Poster}`} className="MovieDetail_portrait" alt="poster" />
-            <img src={`${detail.backdrop_path}`} className="MovieDetail_landscape"  alt="post"/>
+            <img src={`${poster}`} className="MovieDetail_portrait" alt="poster" />
+            <img src={`${backdrop_path}`} className="MovieDetail_landscape"  alt="post"/>
             <div className="MovieDetail_about">
               <span className="MovieDetail_title">
-                {detail.Title} ({(detail.Year)})
+                {title} ({(year)})
               </span>
               <span className="buy">
-                <p>Buy: {detail.Buy}</p>
+                <p>Buy: {buy}</p>
               </span>
               <span className="MovieDetail_overview">
-                {(detail.overview)}
+                {(overview)}
               </span>
             </div>
             </div>

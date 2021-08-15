@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import "../css/series.css";
 import SingleContentSeries from '../components/SingleContentSeries';
+import MovieContext from "../components/MovieContext";
+import { useContext } from 'react';
 
 const Series = () => {
-  const [series, setSeries] = useState([]);
-
-  useEffect(() => {
-    fetch("/series")
-      .then((res) => {
-        return res.json()
-      })
-      .then(json => {
-        setSeries(json);
-      })
-      .catch((err) => {
-        console.log(`Error ${err} `);
-      })
-  }, [])
-
-
-
+  const {series, setSeries}  = useContext(MovieContext);
 
 
   return (
@@ -28,14 +14,14 @@ const Series = () => {
       <div className="series">
         {
 
-          series && series.map((c) => (
+          series && series.map((c,index) => (
             <SingleContentSeries
               key={c.id}
               id={c.id}
-              Title={c.Title}
-              Year={c.Year}
-              Buy={c.Buy}
-              Poster={c.Poster}
+              title={c.title}
+              year={c.year}
+              buy={c.buy}
+              poster={c.poster}
               overview={c.overview}
               release_date={c.release_date}
               backdrop_path={c.backdrop_path}

@@ -1,37 +1,14 @@
 import "../css/Trending.css";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import SingleContent from '../components/SingleContent';
 import SingleContentSeries from '../components/SingleContentSeries';
+import MovieContext from "../components/MovieContext";
+import { useContext } from 'react';
 
-const Trending = () => {
-  const [trendingMovie, setTrendingMovie] = useState([]);
-  const [trendingSeries, setTrendingSeries] = useState([]);
+export default function Trending()  {
+  const {trendingMovies, setTrendingMovies} =  useContext(MovieContext);
+  const {trendingSeries, setTrendingSeries} =  useContext(MovieContext);
 
-  useEffect(() => {
-    fetch("/trendingMovies")
-      .then((res) => {
-        return res.json()
-      })
-      .then(json => {
-        setTrendingMovie(json);
-      })
-      .catch((err) => {
-        console.log(`Error ${err} `);
-      })
-  }, [])
-
-  useEffect(() => {
-    fetch("/trendingSeries")
-      .then((res) => {
-        return res.json()
-      })
-      .then(json => {
-        setTrendingSeries(json);
-      })
-      .catch((err) => {
-        console.log(`Error ${err} `);
-      })
-  }, [])
 
   return (
     <div>
@@ -41,16 +18,17 @@ const Trending = () => {
       <div className="trending">
         {
          
-          trendingMovie && trendingMovie.map((c) => (
+          trendingMovies && trendingMovies.map((c) => (
             <SingleContent
-              key={c.id}
-              id={c.id}
-              Title={c.Title}
-              Year={c.Year}
-              Poster={c.Poster}
-              overview={c.overview}
-              release_date={c.release_date}
-              backdrop_path={c.backdrop_path}
+            key={c.id}
+            id={c.id}
+            title={c.title}
+            year={c.year}
+            rent={c.rent}
+            buy={c.buy}
+            poster={c.poster}
+            overview={c.overview}
+            backdrop_path={c.backdrop_path}
             />
           
           ))}
@@ -67,14 +45,15 @@ const Trending = () => {
         {
           trendingSeries && trendingSeries.map((c) => (
             <SingleContentSeries
-              key={c.id}
-              id={c.id}
-              Title={c.Title}
-              Year={c.Year}
-              Poster={c.Poster}
-              overview={c.overview}
-              release_date={c.release_date}
-              backdrop_path={c.backdrop_path}
+            key={c.id}
+            id={c.id}
+            title={c.title}
+            year={c.year}
+            buy={c.buy}
+            poster={c.poster}
+            overview={c.overview}
+            release_date={c.release_date}
+            backdrop_path={c.backdrop_path}
             />
           ))}
       </div>
@@ -86,5 +65,3 @@ const Trending = () => {
     </div>
   );
 };
-
-export default Trending;
